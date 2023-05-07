@@ -1,23 +1,28 @@
 import Foundation
 
-struct CreateArtifactBundleDirectories: Command {
-    private let configuration: FullFlowConfiguration
+public struct CreateArtifactBundleDirectories<C: Configuration>: Command {
+    private let configuration: C
 
-    init(_ configuration: FullFlowConfiguration) {
+    public init(_ configuration: C) {
         self.configuration = configuration
     }
 
-    func `do`() async -> Result<Void, Error>{
+    public func `do`() async -> Result<Void, Error>{
         do {
-            try FileManager.default.createDirectory(atPath: configuration.variantBinaryDirectory, withIntermediateDirectories: true)
+            try configuration.variants.forEach { variant in
+                try FileManager.default.createDirectory(atPath: configuration.variantBinaryDirectory(for: variant.name), withIntermediateDirectories: true)
+            }
             return .success
         } catch {
             return .failure(error)
         }
     }
 
-    func undo() async -> Result<Void, Error> {
-        try? FileManager.default.removeItem(atPath: configuration.variantBinaryDirectory)
+    public func undo() async -> Result<Void, Error> {
+        try? configuration.variants.forEach { variant in
+            try FileManager.default.removeItem(atPath: configuration.variantBinaryDirectory(for: variant.name))
+        }
+        // try? FileManager.default.removeItem(atPath: configuration.variantBinaryDirectory)
         return .success
     }
 }

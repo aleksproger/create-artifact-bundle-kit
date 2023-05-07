@@ -1,32 +1,36 @@
 import Foundation
 
-struct CreateUniversalBinary: Command {
-    private let configuration: FullFlowConfiguration
+public struct CreateUniversalBinary<C: Configuration>: Command {
+    private let configuration: C
     private let universalBinaryFactory: UniversalBinaryFactory
 
-    init(
-        _ configuration: FullFlowConfiguration,
+    public init(
+        _ configuration: C,
         _ universalBinaryFactory: UniversalBinaryFactory
     ) {
         self.configuration = configuration
         self.universalBinaryFactory = universalBinaryFactory
     }
 
-    func `do`() async -> Result<Void, Error>{
+    public func `do`() async -> Result<Void, Error>{
         do {
-            try await universalBinaryFactory.make(
-                inputBinaries: configuration.executablePathes.map(\.path),
-                outputBinary: configuration.variantBinary
-            )
-        
+            try await configuration.variants.asyncForEach { variant in
+                try await universalBinaryFactory.make(
+                    inputBinaries: variant.binaries.map(\.path),
+                    outputBinary: configuration.variantBinaryPath(for: variant.name)
+                )
+            }
+            
             return .success
         } catch {
             return .failure(error)
         }
     }
 
-    func undo() async -> Result<Void, Error> {
-        try? FileManager.default.removeItem(atPath: configuration.variantBinary)
+    public func undo() async -> Result<Void, Error> {
+        configuration.variants.forEach { variant in
+            try? FileManager.default.removeItem(atPath: configuration.variantBinaryPath(for: variant.name))
+        }
         return .success
     }
 }

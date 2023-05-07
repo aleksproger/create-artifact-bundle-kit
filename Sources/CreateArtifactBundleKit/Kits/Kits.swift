@@ -1,10 +1,17 @@
 public enum Kits {
-    public static func fullFlowFromArguments(
+    public static func fullFlow(
         universalBinaryFactory: UniversalBinaryFactory
-    ) -> some ArgumentsBasedKit {
+    ) -> some FullFlowKit {
         CreateArtifactBundleKit(
-            configurationFactory: ArgumentsFullFlowConfigurationFactory(),
             commandsFactory: FullFlowCommandsFactory(universalBinaryFactory)
+        )
+    }
+
+    public static func prebuiltBinariesFlow(
+        universalBinaryFactory: UniversalBinaryFactory
+    ) -> some PrebuiltBinariesKit {
+        CreateArtifactBundleKit(
+            commandsFactory: PrebuiltBinariesCommandsFactory(universalBinaryFactory)
         )
     }
 }

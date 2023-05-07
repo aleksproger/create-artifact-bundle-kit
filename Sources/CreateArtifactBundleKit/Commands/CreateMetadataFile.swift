@@ -1,13 +1,13 @@
 import Foundation
 
-struct CreateMetadataFile: Command {
-    private let configuration: FullFlowConfiguration
+public struct CreateMetadataFile<C: Configuration>: Command {
+    private let configuration: C
 
-    init(_ configuration: FullFlowConfiguration) {
+    public init(_ configuration: C) {
         self.configuration = configuration
     }
 
-    func `do`() async -> Result<Void, Error>{
+    public func `do`() async -> Result<Void, Error>{
         do {
             try configuration.artifactBundleMetadata.createJSON(at: configuration.metadataJSONFile)
             return .success
@@ -16,7 +16,7 @@ struct CreateMetadataFile: Command {
         }
     }
 
-    func undo() async -> Result<Void, Error> {
+    public func undo() async -> Result<Void, Error> {
         try? FileManager.default.removeItem(atPath: configuration.metadataJSONFile)
         return .success
     }
