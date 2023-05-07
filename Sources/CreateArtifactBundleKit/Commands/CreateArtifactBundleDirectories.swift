@@ -22,7 +22,7 @@ public struct CreateArtifactBundleDirectories<C: Configuration>: Command {
         try? configuration.variants.forEach { variant in
             try FileManager.default.removeItem(atPath: configuration.variantBinaryDirectory(for: variant.name))
         }
-        // try? FileManager.default.removeItem(atPath: configuration.variantBinaryDirectory)
+
         return .success
     }
 }
