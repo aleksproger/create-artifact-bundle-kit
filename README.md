@@ -1,6 +1,9 @@
 # CreateArtifactBundleKit
 
 Package provides SDK for creating Artifact Bundles for Swift Package Manager.
+
+## Info
+
 Proposal regarding Artifact Bundles can be found [here](https://github.com/apple/swift-evolution/blob/main/proposals/0305-swiftpm-binary-target-improvements.md).
 
 ## Usage
