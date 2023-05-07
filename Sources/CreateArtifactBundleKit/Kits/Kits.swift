@@ -1,6 +1,6 @@
 public enum Kits {
     public static func fullFlow(
-        universalBinaryFactory: UniversalBinaryFactory
+        universalBinaryFactory: UniversalBinaryFactory = LipoBinaryFactory()
     ) -> some FullFlowKit {
         CreateArtifactBundleKit(
             commandsFactory: FullFlowCommandsFactory(universalBinaryFactory)
@@ -8,7 +8,7 @@ public enum Kits {
     }
 
     public static func prebuiltBinariesFlow(
-        universalBinaryFactory: UniversalBinaryFactory
+        universalBinaryFactory: UniversalBinaryFactory = LipoBinaryFactory()
     ) -> some PrebuiltBinariesKit {
         CreateArtifactBundleKit(
             commandsFactory: PrebuiltBinariesCommandsFactory(universalBinaryFactory)

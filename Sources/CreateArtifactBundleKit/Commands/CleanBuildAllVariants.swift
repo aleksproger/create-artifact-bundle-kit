@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CleanBuildAllTriples: Command {
+public struct CleanBuildAllVariants: Command {
     private let configuration: FullFlowConfiguration
 
     public init(_ configuration: FullFlowConfiguration) {

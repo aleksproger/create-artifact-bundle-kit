@@ -12,15 +12,28 @@ public struct FullFlowConfiguration: Configuration {
         target: String,
         version: String,
         outputDirectory: String,
-        variants: [V],
+        variants: [String: Set<String>],
         buildDirectory: String,
         packageDirectory: String
     ) {
         self.target = target
         self.version = version
         self.outputDirectory = outputDirectory
-        self.variants = variants
+        self.variants = variants.map { name, triples in
+            let binaries = binariesAfterBuild(target: target, triples: triples, buildDirectory: buildDirectory)
+            return V(name: name, triples: triples, binaries: binaries)
+        }
         self.buildDirectory = buildDirectory
         self.packageDirectory = packageDirectory
+    }
+}
+
+private func binariesAfterBuild(
+    target: String,
+    triples: Set<String>,
+    buildDirectory: String
+) -> [Binary] {
+    triples.map { triple in
+        Binary(triple: triple, path:  "\(buildDirectory)/\(triple)/release/\(target)")
     }
 }

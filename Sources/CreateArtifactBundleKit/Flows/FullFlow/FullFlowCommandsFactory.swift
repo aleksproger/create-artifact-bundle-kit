@@ -10,7 +10,7 @@ struct FullFlowCommandsFactory: CommandsFactory {
     func make(for configuration: FullFlowConfiguration) -> [Command] {[
         DeleteCurrentArtifactBundleDirectoryIfExist(configuration),
         CreateArtifactBundleDirectories(configuration),
-        CleanBuildAllTriples(configuration),
+        CleanBuildAllVariants(configuration),
         CreateUniversalBinary(configuration, universalBinaryFactory),
         CreateMetadataFile(configuration),
     ]}
