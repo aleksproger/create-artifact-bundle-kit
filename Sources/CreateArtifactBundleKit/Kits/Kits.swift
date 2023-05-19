@@ -7,9 +7,10 @@ public enum Kits {
         )
     }
 
-    public static func prebuiltBinariesFlow(
+    public static func prebuiltBinariesFlow<C: Configuration>(
         universalBinaryFactory: UniversalBinaryFactory = LipoBinaryFactory()
-    ) -> some PrebuiltBinariesKit {
+    ) -> CreateArtifactBundleKit<C, PrebuiltBinariesCommandsFactory<C>> 
+    where C.V == PrebuiltBinariesVariant {
         CreateArtifactBundleKit(
             commandsFactory: PrebuiltBinariesCommandsFactory(universalBinaryFactory)
         )

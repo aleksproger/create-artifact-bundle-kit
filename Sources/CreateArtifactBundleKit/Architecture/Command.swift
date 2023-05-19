@@ -7,11 +7,13 @@ public protocol Command {
 
 extension Array where Element == Command {
     func execute() async throws {
-         try await self.asyncForEach { command in
+        for i in 0..<count {
             do {
-                try await command.do().get()
+                try await self[i].do().get()
             } catch {
-                await _ = command.undo()
+                await self[0..<i].asyncForEach { command in
+                    await _ = command.undo()
+                }
                 throw error
             }
         }
