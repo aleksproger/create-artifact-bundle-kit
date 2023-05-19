@@ -8,6 +8,6 @@ public struct PrebuiltBinariesVariant: Variant {
     public init(name: String, binaries: [Binary]) {
         self.name = name
         self.binaries = binaries
-        self.triples = Set(binaries.map(\.triple))
+        self.triples = Set(binaries.flatMap(\.triples))
     }
 }

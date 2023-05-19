@@ -7,7 +7,7 @@ let package = Package(
     name: "create-artifact-bundle-kit",
     platforms: [.macOS(.v11)],
     products: [
-        .library(name: "CreateArtifactBundleKit", targets: ["CreateArtifactBundleKit"])
+        .library(name: "CreateArtifactBundleKit", targets: ["CreateArtifactBundleKit"]),
     ],
     targets: [
         .target(name: "CreateArtifactBundleKit"),

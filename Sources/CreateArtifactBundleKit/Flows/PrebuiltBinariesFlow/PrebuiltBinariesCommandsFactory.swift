@@ -1,13 +1,12 @@
-struct PrebuiltBinariesCommandsFactory: CommandsFactory {
-    typealias Configuration = PrebuiltBinariesConfiguration
-
+public struct PrebuiltBinariesCommandsFactory<C: Configuration>: CommandsFactory 
+where C.V == PrebuiltBinariesVariant {
     private let universalBinaryFactory: UniversalBinaryFactory
 
     init(_ universalBinaryFactory: UniversalBinaryFactory) {
         self.universalBinaryFactory = universalBinaryFactory
     }
 
-    func make(for configuration: PrebuiltBinariesConfiguration) -> [Command] {[
+    public func make(for configuration: C) -> [Command] {[
         DeleteCurrentArtifactBundleDirectoryIfExist(configuration),
         CreateArtifactBundleDirectories(configuration),
         CreateUniversalBinary(configuration, universalBinaryFactory),

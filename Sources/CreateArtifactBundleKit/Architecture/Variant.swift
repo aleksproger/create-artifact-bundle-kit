@@ -7,11 +7,16 @@ public protocol Variant {
 }
 
 public struct Binary {
-    public let triple: String
+    public let triples: [String]
     public let path: String
 
     public init(triple: String, path: String) {
-        self.triple = triple
+        self.triples = [triple]
+        self.path = path
+    }
+
+    public init(triples: [String], path: String) {
+        self.triples = triples
         self.path = path
     }
 }
