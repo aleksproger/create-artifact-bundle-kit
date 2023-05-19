@@ -25,7 +25,7 @@ let configuration = FullFlowConfiguration(
 )
 
 try await Kits
-    .prebuiltBinariesFlow()
+    .fullFlow()
     .run(with: configuration)
 ```
 
